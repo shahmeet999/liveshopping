@@ -27,7 +27,7 @@ if($_SESSION['emailid']=='')
   <script src="../Scripts/bootstrap.min.js"></script>
   <script src='../js/jquery.dataTables.min.js'></script>	 
   
-  <script>
+  <script type="text/javascript ">
         $(function () {
             $('#dataTable').dataTable({
                 "bJQueryUI": true,
@@ -48,7 +48,38 @@ if($_SESSION['emailid']=='')
                     });
                 }
             });
-        });
+        }); 
+
+</script>
+
+<script type="text/javascript">
+       $(document).ready(function () { 
+
+  // binding the check all box to onClick event
+    $(".chkhead").click(function () {
+
+    var checkAll = $(".chkhead").prop('checked');
+    if (checkAll) {
+      $(".checkboxes").prop("checked", true);
+    } else {
+      $(".checkboxes").prop("checked", false);
+    } 
+
+    });
+
+    // if all checkboxes are selected, then checked the main checkbox class and vise versa
+    $(".checkboxes").click(function(){
+
+        if($(".checkboxes").length == $(".subscheked:checked").length) {
+            $(".chk_all").attr("checked", "checked");
+        } else {
+            $(".chk_all").removeAttr("checked");
+        }
+
+    });
+
+});
+
     </script>
   
 <title>Product Display</title>
@@ -67,7 +98,7 @@ if($_SESSION['emailid']=='')
         </div>
         </div>
 	</div>	
-<form action="viewprofile.php" method="post">
+<form action="delall.php" method="post">
 
     <div class="container">
 
@@ -149,6 +180,7 @@ if($_SESSION['emailid']=='')
 
 <thead>
 <tr>
+  <th><input type="checkbox" class="chkhead" name="chkhead" style="opacity:1;margin-top: -16px;"></th>
 <th>Pro id</th>
 <th>product Name</th>
 <th>Product Price</th>
@@ -171,6 +203,7 @@ $res=$res->displaypro();
 while($row=mysql_fetch_array($res,MYSQL_ASSOC))
 {
 	echo '<tr>';
+   echo '<td><input type="checkbox" class="checkboxes" name="chk[]"  value="'.$row["pro_id"].'" style="opacity:1";/>';    
 	echo '<td>'.$row["pro_id"].'</td>';
 	echo '<td>'.$row["pro_name"].'</td>';
 	echo '<td>'.$row["pro_price"].'</td>';
@@ -193,7 +226,7 @@ while($row=mysql_fetch_array($res,MYSQL_ASSOC))
     
 
             </div>
-
+<center><input type="submit" name="delall" value="DeleteAll" class="btn btn-danger"/></center>
 
         </div>
 

@@ -25,8 +25,7 @@ if($_SESSION['emailid']=='')
     <script src="../js/jquery-1.10.2.min.js"></script>
   <script src="../Scripts/bootstrap.min.js"></script>
   <script src='../js/jquery.dataTables.min.js'></script>	 
-  
-  <script>
+<script type="text/javascript ">
         $(function () {
             $('#dataTable').dataTable({
                 "bJQueryUI": true,
@@ -47,9 +46,39 @@ if($_SESSION['emailid']=='')
                     });
                 }
             });
-        });
-    </script>
-	
+        }); 
+
+</script>
+
+<script type="text/javascript">
+       $(document).ready(function () { 
+
+  // binding the check all box to onClick event
+    $(".chkhead").click(function () {
+
+    var checkAll = $(".chkhead").prop('checked');
+    if (checkAll) {
+      $(".checkboxes").prop("checked", true);
+    } else {
+      $(".checkboxes").prop("checked", false);
+    } 
+
+    });
+
+    // if all checkboxes are selected, then checked the main checkbox class and vise versa
+    $(".checkboxes").click(function(){
+
+        if($(".checkboxes").length == $(".subscheked:checked").length) {
+            $(".chk_all").attr("checked", "checked");
+        } else {
+            $(".chk_all").removeAttr("checked");
+        }
+
+    });
+
+});
+
+    </script>	
 <title>Display User</title>
 
 </head>
@@ -57,7 +86,7 @@ if($_SESSION['emailid']=='')
 
 <body>
 
-<form action="show.php" method="post">
+<form action="delalluser.php" method="post">
 
 
 
@@ -150,6 +179,7 @@ if($_SESSION['emailid']=='')
 
 <thead>
 <tr>
+  <th><input type="checkbox" class="chkhead" name="chkhead" style="opacity:1;margin-top: -16px;"></th>
 <th>Email id</th>
 <th>User Name</th>
 <th>City</th>
@@ -168,6 +198,7 @@ $res=$res->displayadmin();
 while($row=mysql_fetch_array($res,MYSQL_ASSOC))
 {
 	echo '<tr>';
+echo '<td><input type="checkbox" class="checkboxes" name="chk[]"  value="" style="opacity:1";/>';    
 	echo '<td>'.$row["email_id"].'</td>';
 	echo '<td>'.$row["u_name"].'</td>';
 	echo '<td>'.$row["city"].'</td>';
@@ -183,6 +214,7 @@ while($row=mysql_fetch_array($res,MYSQL_ASSOC))
 </tbody>
 
 </table>
+<center><input type="submit" name="delall" value="DeleteAll" class="btn btn-danger"/></center>
 </div>
 </form>
 

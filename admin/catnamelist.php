@@ -26,7 +26,7 @@ if($_SESSION['emailid']=='')
   <script src="../Scripts/bootstrap.min.js"></script>
   <script src='../js/jquery.dataTables.min.js'></script>	 
   
-  <script>
+  <script type="text/javascript ">
         $(function () {
             $('#dataTable').dataTable({
                 "bJQueryUI": true,
@@ -47,9 +47,39 @@ if($_SESSION['emailid']=='')
                     });
                 }
             });
-        });
-    </script>
+        }); 
 
+</script>
+
+<script type="text/javascript">
+       $(document).ready(function () { 
+
+  // binding the check all box to onClick event
+    $(".chkhead").click(function () {
+
+    var checkAll = $(".chkhead").prop('checked');
+    if (checkAll) {
+      $(".checkboxes").prop("checked", true);
+    } else {
+      $(".checkboxes").prop("checked", false);
+    } 
+
+    });
+
+    // if all checkboxes are selected, then checked the main checkbox class and vise versa
+    $(".checkboxes").click(function(){
+
+        if($(".checkboxes").length == $(".subscheked:checked").length) {
+            $(".chk_all").attr("checked", "checked");
+        } else {
+            $(".chk_all").removeAttr("checked");
+        }
+
+    });
+
+});
+
+    </script>
 	
 <title>Category Name List</title>
 
@@ -58,7 +88,7 @@ if($_SESSION['emailid']=='')
 
 <body>
 
-<form action="show.php" method="post">
+<form action="delallcat.php" method="post">
 
 
 
@@ -156,6 +186,7 @@ if($_SESSION['emailid']=='')
 
 		<thead>
 <tr>
+    <th><input type="checkbox" class="chkhead" name="chkhead" style="opacity:1;margin-top: -16px;"></th>
 <th>Categories Id</th>
 <th>Categories Name</th>
 <th>Action</th>
@@ -173,7 +204,7 @@ $res=mysql_query("select * from catg_tbl",$con);
 while($row=mysql_fetch_array($res,MYSQL_ASSOC))
 {
 	echo '<tr>';
-	
+	   echo '<td><input type="checkbox" class="checkboxes" name="chk[]"  value="'.$row["cat_id"].'" style="opacity:1";/>';    
 		echo '<td>'.$row["cat_id"].'</td>';
 echo '<td>'.$row["cat_name"].'</td>';
 echo '<td><a href="updatecat.php?catid='.$row["cat_id"].'">Update</a></td>';
@@ -184,6 +215,7 @@ echo '<td><a href="updatecat.php?catid='.$row["cat_id"].'">Update</a></td>';
 
 	</tbody>
 </table>
+<center><input type="submit" name="delall" value="DeleteAll" class="btn btn-danger"/></center>
 </div>
 <div class="col-md-0"></div>
 </div>
